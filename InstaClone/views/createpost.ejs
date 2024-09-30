@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+<body>
+    <div class="main">
+        <a href="/profile" class="text-2xl text-blue-500 p-5 block">Back</a>
+        <h1 class="text-3xl font-semibold text-center">Uplaod Post</h1>
+
+        <div class="flex justify-center w-full">
+            <div class="flex items-center justify-center mt-8 rounded-lg">
+                <form action="/upload" method="post" enctype="multipart/form-data" class="grid">
+                    <div class="h-52 w-68 border-[1px] border-gray-400 rounded-lg p-10 flex flex-col items-center justify-center">
+                        <i class="ri-image-line text-6xl"></i>
+                        <label for="image" id="label" class="cursor-pointer text-blue-500">Select from your computer</label>
+                        <input type="file" id="image" name="image" hidden>
+                    </div>
+                    <textarea class="mt-4 border-[1px] border-gray-300 outline-none resize-vertical min-h-10 min-w-96" name="caption" id="caption" placeholder="Write caption here..."></textarea><br>
+                    <input type="submit" value="Create Post" class="w-auto mx-12 justify-self-auto h-10 bg-blue-500 px-4 text-white rounded-md text-lg cursor-pointer">
+                </form>
+            </div>
+        </div>
+    </div>    
+    <script>
+        document.querySelector('#image').addEventListener('change', () => {
+            let label = document.querySelector('#label')
+            label.innerHTML = "Post uploaded successfully"
+            label.classList.add('text-blue-600')
+            label.classList.add('italic')
+        })
+    </script>
+</body>
+</html>

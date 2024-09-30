@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+   <div class="main">
+    <a href="/profile" class="text-2xl text-blue-500 p-5 block">Back</a>
+    <h1 class="text-3xl font-semibold text-center">Edit Profile</h1>
+
+    <form action="/updateprofile" method="post" enctype="multipart/form-data">
+        <div class="pic flex items-center flex-col mt-4">
+            <div class="face h-36 w-36 rounded-full bg-gray-100"><img class="w-full h-full object-cover rounded-full" 
+                src="../images/uploads/<%= user.profileImage %>" id="upload"></div>
+            <label for="file" class="cursor-pointer text-blue-500 mt-2">Change profile picture</label>
+            <input name="image" type="file" id="file" class="hidden">
+            <div id="label" class="text-blue-600 italic text-sm text-center"></div>
+        </div>
+        <div class="flex flex-col items-center mt-4">
+            <input class="w-80 h-7 my-2 px-1 py-4 outline-none border-[1px] border-gray-300 rounded-md" placeholder="Username" value="<%= user.username %>" type="text" name="username" id="username">
+            <input class="w-80 h-7 my-2 px-1 py-4 outline-none border-[1px] border-gray-300 rounded-md" placeholder="name" value="<%= user.name %>" type="text" name="name" id="name">
+            <textarea name="bio" id="bio" class="w-80 p-1 resize-none border-[1px] border-gray-300 rounded-md h-14" ><%= user.bio %></textarea>
+            <input type="submit" value="Make changes" class="bg-blue-500 px-3 py-2 text-white mt-3 w-40 rounded-lg cursor-pointer hover:bg-blue-600 ease duration-200">
+        </div>
+    </form>
+   </div>
+
+   <script>
+    document.getElementById('file').addEventListener('change', function() {
+        let label = document.querySelector('#label')
+        label.innerHTML = "Picture uploaded, save & continue."
+    });
+   </script>
+</body>
+</html>

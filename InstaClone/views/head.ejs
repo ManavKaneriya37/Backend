@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+<style>
+    .storyContainer::-webkit-scrollbar{
+        display: none;
+    }
+    .story {
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px;
+    /* Instagram gradient for the border */
+    background: linear-gradient(to right, #f58529, #dd2a7b, #8134af, #515bd4);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+    mask-image: radial-gradient(circle, white, black); 
+}
+
+
+</style>
+<link rel="stylesheet" href="../stylesheets/head.css">
+
+<body>
+   <section class="flex fixed top-0 left-0">
+    <header class="min-h-screen"> 
+        <head class="">
+            <img class="h-14 min-w-36" src="../images/textlogo.png" alt="">
+        </head>
+        <navbar class="ml-10 mt-7 w-12 min-h-10 mx-2 flex flex-col gap-7 w-full"> 
+            <a href="/feed"><i class="text-[25px] ri-home-2-line"></i></a>
+            <a href="/search"><i class="text-[25px] ri-search-line"></i></a>
+            <a href="/create"><i class="text-[25px] ri-add-box-line"></i></a>
+            <a href="/notify"><i class="text-[25px] ri-heart-line"></i></a>
+            <a href="/messages"><i class="text-[25px] ri-message-3-line"></i></a>
+            <a href="/profile"><i class="text-[25px] ri-user-3-line"></i></a>
+        </navbar>
+    </header>
+</section>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../stylesheets/signup.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <main class="font-['arial']">
+        <div class="page">
+            <div class="header flex justify-center">
+              <div class="h-20 w-40"><img class="" src="../images/textlogo.png" alt=""></div>
+            </div>
+            <div class="container">
+              <form action="/register" method="post">
+                <input name="name" type="text" placeholder="Full Name">
+                <input name="username" type="text" placeholder="Username">
+                <input name="password" type="password" placeholder="Password">
+                <input type="submit" value="Sign Up" id="button">
+              </form>
+              
+              <ul class="text-xs">
+                <li>By signing up, you agree to our</li>
+                <li><a href="">Terms</a></li>
+                <li><a href="">Data Policy</a></li>
+                <li>and</li>
+                <li><a href="">Cookies Policy</a> .</li>
+             </ul>
+            </div>
+        </div>
+        <div class="option">
+           <p>Have an account? <a href="/login">Log in</a></p>
+        </div>
+      </main>
+      
+</body>
+</html>

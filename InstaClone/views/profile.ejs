@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../stylesheets/profile.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="flex">
+       <%- include('head') %>
+
+       <div class="mainContainer flex flex-col items-center ml-12">
+           <header>
+               <div class="container font-['arial']">
+                   <div class="profile w-[90vw]">
+                       <div class="profile-image">
+                           <img src="../images/uploads/<%= user.profileImage %>" alt="">
+                       </div>
+                    
+                      <div class="flex gap-20">
+                       <div class="profile-user-settings">
+                           <h1 class="profile-user-name"><%= user.username %></h1><br />
+                           <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+                        
+                       </div>
+                    
+                       <div class="profile-stats">
+                           <ul class="flex my-3">
+                               <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">posts</p><span class="profile-stat-count text-center block"><%= user.posts.length %></span></li>
+                               <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">followers</p><span class="profile-stat-count text-center block">188</span></li>
+                               <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">following</p><span class="profile-stat-count text-center block">206</span></li>
+                           </ul>
+                       </div>  
+                      </div>
+                       <div class="profile-bio">
+                           <p><%= user.name %></p>
+                           <p><%= user.bio %></p>
+                        
+                       </div>
+                       <div class="w-fit flex gap-5">
+                        <a href="/editprofile"><button class="px-5 py-3 mt-6 border-black hover:bg-zinc-700 hover:text-white ease duration-200 border-[1px] rounded-lg text-[12px] w-36">Edit Profile</button></a>
+                        <a href="/logout"><button class="px-5 py-3 mt-6 border-red-400 hover:bg-red-500 hover:text-white ease duration-200 border-[1px] rounded-lg text-[12px] w-36">Logout</button></a>
+                       </div>
+                    
+                    
+                   </div>
+                   <!-- End of profile section -->
+                
+               </div>
+           </header>
+           <main>
+            
+               <div class="container w-[90vw] mx-10 py-10">
+                   <div class="flex flex-wrap gap-1 w-[75vw]">
+                        <% if(user.posts.length > 0) { %>
+                            <% user.posts.reverse().forEach(post => { %>
+                             <div class="postImage max-w-96 max-h-96 overlow-hiden">
+                                 <img class="w-full h-full object-cover rounded-md" src="../images/uploads/<%= post.picture %>" alt="">
+                             </div>
+                            <% }) %>
+                        <% } else { %>
+                            <h1 class="text-4xl font-semibold text-center block">No posts yet!</h1>
+                        <% } %>
+                   </div>
+               </div>
+           </main>
+       </div>
+    </div>
+</body>
+</html>
