@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../stylesheets/profile.css">
@@ -16,14 +17,12 @@
                <div class="container font-['arial']">
                    <div class="profile w-[90vw]">
                        <div class="profile-image">
-                           <img src="../images/uploads/<%= user.profileImage %>" alt="">
+                           <img src="../images/uploads/<%= user.profileImage %> ">
                        </div>
-                    
                       <div class="flex gap-20">
                        <div class="profile-user-settings">
                            <h1 class="profile-user-name"><%= user.username %></h1><br />
                            <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
-                        
                        </div>
                     
                        <div class="profile-stats">
@@ -37,14 +36,17 @@
                        <div class="profile-bio">
                            <p><%= user.name %></p>
                            <p><%= user.bio %></p>
-                        
                        </div>
-                       <div class="w-fit flex gap-5">
-                        <a href="/editprofile"><button class="px-5 py-3 mt-6 border-black hover:bg-zinc-700 hover:text-white ease duration-200 border-[1px] rounded-lg text-[12px] w-36">Edit Profile</button></a>
-                        <a href="/logout"><button class="px-5 py-3 mt-6 border-red-400 hover:bg-red-500 hover:text-white ease duration-200 border-[1px] rounded-lg text-[12px] w-36">Logout</button></a>
-                       </div>
-                    
-                    
+
+                       <% if(userid.toString().toLowerCase() === currentUserID.toString().toLowerCase()) { %>
+                        <span></span>
+                    <% } else { %>
+                        <% if(user.followers.indexOf(currentUser._id) == -1 ) { %>
+                            <a href="/user/follow/<%= user.username %>"><button class="bg-blue-500 hover:bg-blue-600 duration-150 ease text-white px-8 rounded-lg py-3 text-2xl mt-4">Follow</button></a>
+                        <% } else { %>
+                            <a href="/user/follow/<%= user.username %>"><button class="bg-blue-500 hover:bg-blue-600 duration-150 ease text-white px-8 rounded-lg py-3 text-2xl mt-4">Following</button></a>
+                        <% } %>
+                    <% } %>
                    </div>
                    <!-- End of profile section -->
                 

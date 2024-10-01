@@ -1,0 +1,11 @@
+<div class="footer text-white flex justify-between items-center w-full fixed bottom-0 z-[10] px-10 py-3"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var scrollpos = localStorage.getItem('scrollpos');
+        if (scrollpos) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('scrollpos', window.scrollY);
+    };
+</script>

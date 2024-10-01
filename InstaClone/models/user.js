@@ -11,7 +11,14 @@ const userSchema = mongoose.Schema({
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'post'
-    }]
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    }],
 })
 
 userSchema.plugin(plm);
