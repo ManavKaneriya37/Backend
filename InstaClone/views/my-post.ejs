@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+<body>
+    <a href="/profile"><i class="ri-arrow-left-line text-3xl hover:text-blue-600 duration-200 px-3 mt-4 block"></i></a>
+    <div class="main flex items-center justify-center">
+        <div class="post border-b-[1px] border-gray-300 px-10 w-[55vw] py-6 flex flex-col">
+            <a href="/profile/user/<%= post.user.username %>"><div class="top flex items-center gap-1">
+                <div class="h-10 w-10 overlow-hiden"><img src="../images/uploads/<%= post.user.profileImage %>" class="rounded-full w-full h-full object-cover" alt=""></div>
+                <p class="text-base">@<%= post.user.username %></p>
+            </div>
+            </a>
+            <div class="flex justify-center -translate-x-1/2 left-1/2 relative">
+                <div class="mt-2 flex items-center justify-center border-[1px] bg-white w-[50vw]">
+                    <div class="image h-96 w-full mx-10 flex justify-center">
+                        <img src="../images/uploads/<%= post.picture %>" class="w-ful h-full object-fill">
+                    </div>
+                </div>
+            </div>
+            <div class="icons flex gap-5 text-2xl pl-2 mt-2">
+                <% if(post.likes.indexOf(post.user._id) !== -1){ %>
+                    <a href="/like/post/<%= post._id %>"><i class="ri-heart-fill text-red-600"></i></a>
+
+                <% } else { %>
+                    <a href="/like/post/<%= post._id %>"><i class="ri-heart-line"></i></a>
+                <% } %>
+                <i class="ri-chat-3-line"></i>
+                <i class="ri-share-forward-line"></i>
+            </div> 
+            <span class="ml-3"><%= post.likes.length %> likes</span>
+            <div class="mt-1">
+                <div><a href="/profile/user/<%= post.user.username %>"><span class="font-semibold mx-3">@<%= post.user.username %></span></a><%= post.caption %></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

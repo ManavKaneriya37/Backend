@@ -58,9 +58,9 @@
                    <div class="flex flex-wrap gap-1 w-[75vw]">
                         <% if(user.posts.length > 0) { %>
                             <% user.posts.reverse().forEach(post => { %>
-                             <div class="postImage max-w-96 max-h-96 overlow-hiden">
+                             <a href="/mypost/view/<%= post._id %>"><div class="postImage max-w-96 max-h-96 overlow-hiden">
                                  <img class="w-full h-full object-cover rounded-md" src="../images/uploads/<%= post.picture %>" alt="">
-                             </div>
+                             </div></a>
                             <% }) %>
                         <% } else { %>
                             <h1 class="text-4xl font-semibold text-center block">No posts yet!</h1>

@@ -1,13 +1,17 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const upload = require('./controllers/multer')
+
+const userModel = require('./models/user');
+const postModel = require('./models/post')
+const storyModel = require('./models/story')
+
 const expressSession = require('express-session')
 const passport = require('passport')
-const userModel = require('./models/user');
 const localStrategy = require('passport-local')
-const upload = require('./controllers/multer')
 passport.use(new localStrategy(userModel.authenticate()));
-const postModel = require('./models/post')
+
 
 app.set('view engine', 'ejs');
 app.use(expressSession({
@@ -19,9 +23,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -47,13 +51,44 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: "/login"
 }))
 app.get('/feed',isLoggedIn, async (req, res) => {
-    const posts = await postModel.find().populate('user')
-    const user = await userModel.findOne({username: req.session.passport.user})
-    res.render('feed', {posts, user});
+    try {
+        const user = await userModel.findOne({username: req.session.passport.user})
+        const currentUserid = user._id;
+        const currentUser = await userModel.findById(currentUserid).populate('following').exec();
+
+        const followingIds = currentUser.following.map(followuser => followuser._id);
+        const posts = await postModel.find({user: {$in: followingIds}}).populate('user').exec();
+
+        //story
+        let stories = await storyModel.find({ user: { $ne: user._id } })
+        .populate("user");
+
+        var uniq = {};
+        var filtered = stories.filter(item => {
+          if(!uniq[item.user.id]){
+            uniq[item.user.id] = " ";
+            return true;
+          }
+          else return false;
+        })
+
+        res.render('feed', {
+            posts, 
+            user,
+            stories: filtered,
+        });
+    } catch (error) {
+        res.send(error.message);
+    }
 });
+
 app.get('/profile',isLoggedIn, async(req, res) => {
     const user = await userModel.findOne({username: req.session.passport.user}).populate('posts')
     res.render('profile', {user});
+})
+app.get('/mypost/view/:postid', isLoggedIn, async (req, res) => {
+    const post = await postModel.findOne({_id: req.params.postid}).populate('user');
+    res.render('my-post',{post})
 })
 app.get("/editprofile",isLoggedIn, async (req, res) => {
     const user = await userModel.findOne({username: req.session.passport.user});
@@ -67,9 +102,7 @@ app.get('/search/:user', isLoggedIn, async (req, res) => {
     const regex = new RegExp(searchTerm);
 
     let users = await userModel.find({username: {$regex: regex}});
-
     res.json(users);
-
 })
 app.get('/like/post/:id', isLoggedIn, async (req, res) => {
     const post = await postModel.findOne({_id: req.params.id});
@@ -86,9 +119,6 @@ app.get('/like/post/:id', isLoggedIn, async (req, res) => {
 app.get('/profile/user/:user', isLoggedIn, async (req, res) => {
     const user = await userModel.findOne({username: req.params.user}).populate('posts');
     const currentUser = await userModel.findOne({username: req.session.passport.user});
-
-    console.log("User ",user._id)
-    console.log("Current User ",currentUser._id)
     
     res.render('userprofile', {user, currentUser, userid: user._id, currentUserID: currentUser._id});
 })
