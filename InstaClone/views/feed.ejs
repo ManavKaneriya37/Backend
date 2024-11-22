@@ -26,11 +26,16 @@
     <%- include('head')  %>
     <main class="w-[97%] ml-8 px-3">
         <div class="storyContainer relative ml-36 py-5 px-2 overflow-x-scroll flex gap-5">
-            <div class="flex flex-col min-w-[82px] max-w-[82px] rounded-full min-h-24 max-h-24 overlow-hiden">
-                <img src="../images/uploads/<%= user.profileImage %>"
-                class="story w-full h-full object-cover rounded-full" alt="">
+            <div class="flex flex-col rounded-full min-h-24 max-h-24 overlow-hiden">
+                <img src="../images/uploads/<%= user.profileImage %>" class="story min-h-[80px] max-w-[82px] object-cover rounded-full" alt="">
                 <p class="text-center text-xs font-bold">Your Story</p>
             </div>
+            <% stories.forEach(story => { %>
+                <div class="flex flex-col rounded-full min-h-24 max-h-24 overlow-hiden">
+                    <a href="/story/<%= story._id %>"><img src="../images/uploads/<%= story.user.profileImage %>" class="story min-h-[80px] max-w-[82px] min-w-[82px] object-cover rounded-full" alt=""></a>
+                    <p class="text-center text-xs font-bold"><%= story.user.name %></p>
+                </div>
+            <% }) %>
         </div>
 
         <div class="feeds px-10 py-4">

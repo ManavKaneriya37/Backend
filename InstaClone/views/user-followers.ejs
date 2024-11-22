@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body> 
+    <div class="main"></div>
+        <a href="/profile" class="text-2xl text-blue-500 p-5 block">Back</a>
+
+        <div class="followers-list flex flex-col w-auto mx-40">
+            <% user.followers.forEach(follower => { %>
+                <a href="/profile/user/<%= follower.username %>"><div class="follower flex items-center justify-between w-full px-10 py-1">
+                    <div class="flex items-center gap-5">
+                        <div class="w-20 h-20 overlow-hiden"><img src="../images/uploads/<%= follower.profileImage %>" class="w-full h-full overlow-hiden rounded-full"></div>
+                        <div class="flex flex-col"><h3><%= follower.username %></h3><p><%= follower.name %></p></div>
+                    </div>
+                    <!-- <a href=""><button class="px-5 py-2 bg-blue-500 hover:bg-blue-600 duration-200 text-white rounded-md">Follow</button></a> -->
+                    <!-- <% if(follower._id !== currentUser._id ) { %>
+                        <a href="/user/follow/<%= follower.username %>"><button class="bg-blue-500 hover:bg-blue-600 duration-150 ease text-white px-8 rounded-lg py-3 mt-4">Follow</button></a>
+                    <% } else { %>
+                        <a href="/user/follow/<%= follower.username %>"><button class="bg-blue-500 hover:bg-blue-600 duration-150 ease text-white px-8 rounded-lg py-3 mt-4">Following</button></a>
+                    <% } %> -->
+                </div></a>
+            <% }) %>
+        </div>
+    </body>
+</body>
+</html>

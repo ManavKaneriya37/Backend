@@ -13,18 +13,24 @@
 <body>
     <div class="main">
         <a href="/profile" class="text-2xl text-blue-500 p-5 block">Back</a>
+        <div class="flex w-full justify-center items-center mt-2 mb-4 gap-3">
+            <h5 class="post cursor-pointer opacity-100 border-b-[1px] p-2 border-zinc-400">post</h5>
+            <h5 class="story cursor-pointer opacity-20 border-b-[1px] p-2 border-zinc-900">story</h5>
+          </div>
         <h1 class="text-3xl font-semibold text-center">Uplaod Post</h1>
 
         <div class="flex justify-center w-full">
             <div class="flex items-center justify-center mt-8 rounded-lg">
                 <form action="/upload" method="post" enctype="multipart/form-data" class="grid">
+                    <input class="postinput" hidden name="category" type="radio" value="post" checked="true">
+                    <input class="storyinput" hidden name="category" type="radio" value="story">
                     <div class="h-52 w-68 border-[1px] border-gray-400 rounded-lg p-10 flex flex-col items-center justify-center">
                         <i class="ri-image-line text-6xl"></i>
                         <label for="image" id="label" class="cursor-pointer text-blue-500">Select from your computer</label>
                         <input type="file" id="image" name="image" hidden>
                     </div>
-                    <textarea class="mt-4 border-[1px] border-gray-300 outline-none resize-vertical min-h-10 min-w-96" name="caption" id="caption" placeholder="Write caption here..."></textarea><br>
-                    <input type="submit" value="Create Post" class="w-auto mx-12 justify-self-auto h-10 bg-blue-500 px-4 text-white rounded-md text-lg cursor-pointer">
+                    <textarea class="mt-4 p-1 border-[1px] border-gray-300 outline-none resize-vertical min-h-10 min-w-96" name="caption" id="caption" placeholder="Write caption here..."></textarea><br>
+                        <input type="submit" value="Create Post" class="w-auto mx-12 justify-self-auto h-10 bg-blue-500 px-6 text-white rounded-md text-lg cursor-pointer">
                 </form>
             </div>
         </div>
@@ -35,6 +41,30 @@
             label.innerHTML = "Post uploaded successfully"
             label.classList.add('text-blue-600')
             label.classList.add('italic')
+        })
+
+        document.querySelector(".post")
+        .addEventListener("click", function(){
+          this.style.opacity = 1;
+          this.style.borderColor = "rgb(161,161,170)";
+
+          document.querySelector(".story").style.opacity = .2;
+          document.querySelector(".story").style.borderColor = "#18181B";
+        
+          document.querySelector(".postinput").setAttribute("checked", true);
+          document.querySelector(".storyinput").removeAttribute("checked");
+        })
+
+        document.querySelector(".story")
+        .addEventListener("click", function(){
+          this.style.opacity = 1;
+          this.style.borderColor = "rgb(161,161,170)";
+
+          document.querySelector(".post").style.opacity = .2;
+          document.querySelector(".post").style.borderColor = "#18181B";
+
+          document.querySelector(".postinput").removeAttribute("checked");
+          document.querySelector(".storyinput").setAttribute("checked", true);
         })
     </script>
 </body>

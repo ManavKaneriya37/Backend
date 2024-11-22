@@ -16,7 +16,7 @@
             <div class="face h-36 w-36 rounded-full bg-gray-100"><img class="w-full h-full object-cover rounded-full" 
                 src="../images/uploads/<%= user.profileImage %>" id="upload"></div>
             <label for="file" class="cursor-pointer text-blue-500 mt-2">Change profile picture</label>
-            <input name="image" type="file" id="file" class="hidden">
+            <input name="image" type="file" id="file" class="hidden" >
             <div id="label" class="text-blue-600 italic text-sm text-center"></div>
         </div>
         <div class="flex flex-col items-center mt-4">
@@ -32,6 +32,10 @@
     document.getElementById('file').addEventListener('change', function() {
         let label = document.querySelector('#label')
         label.innerHTML = "Picture uploaded, save & continue."
+    });
+    document.querySelector("#file")
+    .addEventListener("change", function(){
+      document.querySelector("#fileform").submit();
     });
    </script>
 </body>

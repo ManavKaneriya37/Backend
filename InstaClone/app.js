@@ -6,10 +6,11 @@ const upload = require('./controllers/multer')
 const userModel = require('./models/user');
 const postModel = require('./models/post')
 const storyModel = require('./models/story')
+const utils = require('./utils/utils')
 
 const expressSession = require('express-session')
 const passport = require('passport')
-const localStrategy = require('passport-local')
+const localStrategy = require('passport-local');
 passport.use(new localStrategy(userModel.authenticate()));
 
 
@@ -55,11 +56,12 @@ app.get('/feed',isLoggedIn, async (req, res) => {
         const user = await userModel.findOne({username: req.session.passport.user})
         const currentUserid = user._id;
         const currentUser = await userModel.findById(currentUserid).populate('following').exec();
-
+        
         const followingIds = currentUser.following.map(followuser => followuser._id);
         const posts = await postModel.find({user: {$in: followingIds}}).populate('user').exec();
-
-        //story
+        
+        console.log("Posts", posts);
+        // story
         let stories = await storyModel.find({ user: { $ne: user._id } })
         .populate("user");
 
@@ -76,6 +78,7 @@ app.get('/feed',isLoggedIn, async (req, res) => {
             posts, 
             user,
             stories: filtered,
+            dater: utils.formatRelativeTime,
         });
     } catch (error) {
         res.send(error.message);
@@ -127,8 +130,8 @@ app.get('/user/follow/:username', isLoggedIn, async (req, res) => {
     const follower = await userModel.findOne({username: req.session.passport.user});
 
     if(followUser.followers.indexOf(follower._id) == -1) {
-        followUser.followers.push(follower._id);
         follower.following.push(followUser._id);
+        followUser.followers.push(follower._id);
     } else {
         followUser.followers.splice(followUser.followers.indexOf(follower._id),1);
         follower.following.splice(follower.following.indexOf(followUser._id),1);
@@ -137,6 +140,21 @@ app.get('/user/follow/:username', isLoggedIn, async (req, res) => {
     await follower.save();
 
     res.redirect(`/profile/user/${followUser.username}`);
+})
+app.get('/:username/followers', isLoggedIn, async  (req, res) => {
+    const user = await  userModel.findOne({username: req.params.username}).populate('followers');
+    const currentUser =  await userModel.findOne({username: req.session.passport.user});
+
+    res.render('user-followers', {user, currentUser});
+
+})
+app.get('/:username/following', isLoggedIn, async  (req, res) => {
+    const user = await  userModel.findOne({username: req.params.username}).populate('following');
+    const currentUser =  await userModel.findOne({username: req.session.passport.user});
+
+    console.log(user);
+
+    res.render('user-following', {user, currentUser});
 })
 app.get('/create', isLoggedIn, (req, res) => {
     res.render('createpost');
@@ -150,15 +168,23 @@ app.get('/messages', isLoggedIn,  (req, res) => {
 
 app.post('/upload', isLoggedIn, upload.single('image'), async (req, res) => {
     const user = await userModel.findOne({username: req.session.passport.user});
-    let post = await postModel.create({
-        picture:  req.file.filename,
-        user: user._id,
-        caption: req.body.caption
-    })
+    if (req.body.category === "post") {
+        const post = await postModel.create({
+          user: user._id,
+          caption: req.body.caption,
+          picture: req.file.filename,
+        });
+        user.posts.push(post._id);
+      }if (req.body.category === "story") {
+        let story = await storyModel.create({
+          story: req.file.filename,
+          user: user._id,
+        });
+        user.stories.push(story._id);
+      }
 
-    user.posts.push(post._id)
-    await user.save();
-    res.redirect('/feed')
+      await user.save();
+      res.redirect("/feed");
 })
 app.post('/updateprofile', isLoggedIn, upload.single('image'), async (req, res) => {
     const user = await userModel.findOneAndUpdate({username: req.session.passport.user},{

@@ -12,5 +12,4 @@ const storySchema = mongoose.Schema({
   }
 })
 
-
 module.exports = mongoose.model("story", storySchema);

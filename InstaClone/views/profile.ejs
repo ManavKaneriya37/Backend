@@ -27,10 +27,10 @@
                        </div>
                     
                        <div class="profile-stats">
-                           <ul class="flex my-3">
+                           <ul class="flex my-3 gap-10">
                                <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">posts</p><span class="profile-stat-count text-center block"><%= user.posts.length %></span></li>
-                               <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">followers</p><span class="profile-stat-count text-center block"><%= user.followers.length %></span></li>
-                               <li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">following</p><span class="profile-stat-count text-center block"><%= user.following.length %></span></li>
+                               <a href="/<%= user.username %>/followers"><li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">followers</p><span class="profile-stat-count text-center block"><%= user.followers.length %></span></li></a>
+                               <a href="/<%= user.username %>/following"><li class="flex flex-col"><p class="text-3xl font-semibold tracking-tighter">following</p><span class="profile-stat-count text-center block"><%= user.following.length %></span></li></a>
                            </ul>
                        </div>  
                       </div>
