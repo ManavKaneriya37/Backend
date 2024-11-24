@@ -1,33 +1,42 @@
 const socket = io();
-// const joinBtn = document.getElementById('joinBtn')
 
-
-// joinBtn.addEventListener('click', () => {
-//     const username = document.getElementById('nameInput');
-    
-//     if (username.value) {
-//         socket.emit('join', username.value);
-//         username.value = "";
-//         document.querySelector('.popup').classList.add('hidden')
-//     }
-// })
 
 
 const msgBox = document.getElementById('messageBox')
 const sendBtn = document.getElementById('sendBtn')
 const chatContainer = document.querySelector('.chats ul')
-
-function scrollToBottom() {
-    chatContainer.scrollTop = chatContainer.scrollHeight
-}
-window.addEventListener('load',scrollToBottom);
-
+const modeIcon = document.querySelector('.modeIcon')
 sendBtn.addEventListener('click', () => {
-    let msg = msgBox.value;
-    socket.emit("send-message", msg);
-    msgBox.value = "";
+    if(msgBox.value !== ""){
+        let msg = msgBox.value;
+        socket.emit("send-message", msg);
+        msgBox.value = "";
+    }
+})
+function toggleTheme() {
+    const html = document.documentElement;
+    const body = document.body;
 
-    scrollToBottom();
+    if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        body.classList.add('bg-white');
+        body.classList.remove('dark:bg-zinc-800');
+        modeIcon.classList.remove('ri-moon-line');
+        modeIcon.classList.add('ri-sun-line');
+    } else {
+        html.classList.add('dark');
+        body.classList.remove('bg-white');
+        body.classList.add('dark:bg-zinc-800');;
+        console.log("Switched to dark mode");
+        modeIcon.classList.remove('ri-sun-line');
+        modeIcon.classList.add('ri-moon-line');
+    }
+}
+
+msgBox.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendBtn.click();
+    }
 })
 
 socket.on('receive-message', (data) => {
@@ -38,3 +47,9 @@ socket.on('receive-message', (data) => {
     msgElem.classList.add('chat-msg');
     chatContainer.appendChild(msgElem);
 })
+
+socket.on('redirect-user', ({redirectURl}) => {
+    window.location.href = redirectURl;
+})
+
+

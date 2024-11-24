@@ -14,12 +14,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
-// app.get('/', (req, res) => {
-    //     res.render('index');
-    // });
-    
+
 app.get('/', (req, res)=>{
     res.render('chat')
+})
+
+app.get('/restrict', (req, res) => {
+    res.render('restriction');
+});
+
+app.get('/join', (req, res) => {
+    res.render('index');
 })
 
 const users = {};
@@ -29,11 +34,14 @@ io.on('connection', (socket) => {
     
     if(!users.first){
         users.first = socket.id;
-        console.log('connect: ',users);
     }else if(!users.second){
         users.second = socket.id;
-        console.log('connect: ',users);
+    } else {
+        socket.emit('redirect-user',{redirectURl: '/restrict'});
+        socket.disconnect();
+        return;
     }
+    
 
     socket.on('send-message', (msg) => {
         let color = users.first == socket.id ? 'blue' : 'red';
@@ -43,14 +51,14 @@ io.on('connection', (socket) => {
     socket.on("disconnect", () => {
         if(users.first == socket.id){
             delete users.first;
-            console.log('disconnect: ',users);
         }else if(users.second == socket.id){
             delete users.second;
-            console.log('disconnect: ',users);
         }
     })
+    
+    console.log(users); 
+    
 })
-
 
 
 server.listen(port, () => {

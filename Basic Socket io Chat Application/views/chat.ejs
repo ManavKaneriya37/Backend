@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+    <title>Chat</title>
 
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,body{
+            height: 100%;
+            width: 100%;
+            transition: 200ms ease-in;
+        }
         .chats::-webkit-scrollbar{
             width: 10px;
         }
@@ -14,18 +28,39 @@
             background: rgba(235, 235, 235,1);
             border-radius: 3px;
         }
+        html.dark .chats::-webkit-scrollbar-thumb{
+            background: rgb(66, 66, 66, 0.4);
+            border-radius: 3px;
+        }
         .chat-msg{
             width: 100%;
             display: block;
             border-bottom: 1px solid;
-            padding: 5px 0;
+            padding: 7px 0;
         }
+        html.dark input{
+            color: rgb(255 255 255);
+            background-color: #1c1c1c;
+        }
+        html.dark h1{
+            color: rgb(255 255 255);
+        }
+        html.dark i{
+            color: rgb(255 255 255);
+        }
+        html.dark .modeBtn:hover{
+            background-color: rgb(63 63 70);
+        }
+        
     </style>
 </head>
-<body>
+<body class="">
     
     <div class="container">
-        <h1 class="text-center text-4xl">Randsome Chat</h1>
+        <div class="flex pt-2 items-center justify-between px-7">
+            <h1 class="text-center text-black text-2xl ">Randsome Chat</h1>
+            <div class="modeBtn cursor-pointer hover:bg-neutral-200 p-1 px-2 rounded-md" onclick="toggleTheme()"><i class="modeIcon ri-sun-line text-xl"></i></div>
+        </div>
         <div class="h-[83vh] w-full flex justify-center ">
             <div class="chats w-2/4 h-full overflow-x-hidden overflow-y-auto">
                 <ul class="my-10">
@@ -33,7 +68,7 @@
             </div>
         </div>
         <div class="w-full px-20 h-full flex items-center justify-center">
-            <input type="text" id="messageBox" class="w-full px-3 py-3 bg-neutral-100 rounded-lg outline-none" placeholder="What's in your mind?">
+            <input type="text" id="messageBox" class="w-full px-3 py-3 bg-neutral-100 rounded-lg outline-none " placeholder="What's in your mind?">
             <button id="sendBtn" class="px-5 py-2 bg-emerald-400 ml-2 rounded-md text-white">Send</button>
         </div>
     </div>
