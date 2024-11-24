@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  
+    <div class="container">
+        <div class="bg-neutral-100 items-center h-screen">
+            <div class="popup backdrop-blur-lg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 px-14 h-2/4 bg-white rounded-lg shadow-lg shadow-black/40">
+                <h1 class="text-center text-3xl py-7">Hello User,</h1>
+                <div class="justify-self-center block">
+                    <input id="nameInput" type="text" name="username" class="relative bg-neutral-100 py-2 px-5 outline-none rounded-lg" placeholder="Enter your name to join">
+                    <p class="text-left text-[9px] tracking-tight ml-2 mt-1">*Your name will be displayed in the chat</p>
+                </div>
+                <a href="/chat" id="joinBtn" class="block justify-self-center px-3 py-2 hover:bg-blue-600 duration-200 text-white bg-blue-500 mt-4 rounded-md ">Join the room</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+  <script src="../javascripts/index.js"></script>
+</body>
+</html>

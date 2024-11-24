@@ -82,7 +82,7 @@ const handleMove = (source, target) => {
         to: `${String.fromCharCode(97 + target.col)}${8- target.row}`,
         promotion: 'q'
     }
-    socket.emit("move", move);
+    socket.emit("move", move);  
 };
 
 const getPieceUnicode = (piece) => {
@@ -108,7 +108,7 @@ socket.on("playerRole", (role) => {
     playerRole = role;
     renderBoard();
 })
-socket.on('spactatorRole', () => {
+socket.on("spectatorRole", () => {
     playerRole = null;
     renderBoard();
 })

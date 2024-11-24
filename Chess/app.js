@@ -7,10 +7,10 @@ const path = require('path');
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
     res.render('index', { title: "Chess Game" });
 })
-
 
 const server = https.createServer(app)
 const io = socket(server);
@@ -27,7 +27,7 @@ io.on('connection', uniquesocket => {
         console.log(players)
         uniquesocket.emit("playerRole", "w");
     }
-    else if (!players.black) {
+    else if (!players.black) { 
         players.black = uniquesocket.id;
         console.log(players)
         uniquesocket.emit('playerRole', 'b');
@@ -59,7 +59,6 @@ io.on('connection', uniquesocket => {
             const result = chess.move(move);
             if (result) {
                 currentPlayer = chess.turn();
-                console.log(currentPlayer)
                 io.emit("move", move);
                 io.emit("boardState", chess.fen());
             }
@@ -72,7 +71,7 @@ io.on('connection', uniquesocket => {
             uniquesocket.emit("Something went wrong: ", move);
         }
     })
-})
+})  
 server.listen('3000', () => {
     console.log("Server is running on port 3000");
 })
