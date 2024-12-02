@@ -15,7 +15,7 @@ const Start = () => {
           <Link 
           to='/login' 
           className='block text-center text-xl w-full text-white bg-black rounded-lg py-3'
-          >Continue  <i class="ri-arrow-right-line"></i>
+          >Continue  <i className="ri-arrow-right-line"></i>
           </Link>
         </div>
       </div>
