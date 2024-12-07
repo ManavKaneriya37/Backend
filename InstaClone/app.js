@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const upload = require('./controllers/multer')
+const dotenv = require('dotenv').config();  
 
 const userModel = require('./models/user');
 const postModel = require('./models/post')
 const storyModel = require('./models/story')
 const utils = require('./utils/utils')
+const port = process.env.PORT;
 
 const expressSession = require('express-session')
 const passport = require('passport')
@@ -20,10 +22,12 @@ app.use(expressSession({
     saveUninitialized: false,
     secret: "Nothing Special"
 }))
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
+
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -215,6 +219,6 @@ function isLoggedIn(req, res, next){
     res.redirect('/');
 }
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
