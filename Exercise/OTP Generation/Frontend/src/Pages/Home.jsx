@@ -1,37 +1,42 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "remixicon/fonts/remixicon.css";
-
+import axios from 'axios'
 const Home = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const handlesubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if(phoneNumber.length != 10) {
-        setError(true);
-        return;
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/generate-otp`, {email});
+
+    if(response.status === 200) {
+      navigate("/otp", { state: { email } });
     }
-    
-    navigate('/otp')
+    else {
+      setError(true);
+    }
   };
+
+  // const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
   return (
     <div className="h-screen w-full">
       <div className="flex flex-col justify-center items-center h-full">
-        <form onSubmit={handlesubmit}>
+        <form onSubmit={handleSubmit}>
           <input
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            type="number"
-            className="border-2 w-64 h-10 border-zinc-700/70 px-4 outline-none rounded py-1"
-            placeholder="Enter Phone Number"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            className="border-2 w-64 h-10 border-zinc-700/70 px-4 outline-none rounded py-1 my-2"
+            placeholder="Enter your email"
           />
-          <h1 className="mb-5 text-red-500 text-sm">{error ? "*Enter valid phone number" : null}</h1>
           <button className="h-10 w-64 text-xl flex items-center justify-center bg-emerald-600 hover:bg-emerald-500 duration-150 rounded-lg text-white">
             Get OTP <i className="ri-arrow-right-line"></i>
           </button>
+          <h1 className="block text-sm mb-2 text-red-500">{error ? "Something went wrong" : null}</h1>
         </form>
       </div>
     </div>
