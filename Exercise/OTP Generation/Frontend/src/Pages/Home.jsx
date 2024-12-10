@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 import "remixicon/fonts/remixicon.css";
 import axios from 'axios'
 const Home = () => {
+
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/generate-otp`, {email});
 
@@ -20,12 +28,14 @@ const Home = () => {
 
   // const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState(false);
+ 
   return (
     <div className="h-screen w-full">
       <div className="flex flex-col justify-center items-center h-full">
-        <form onSubmit={handleSubmit}>
+        {isLoading ? (
+          <Loading loading={isLoading}/>
+        ) : (
+          <form onSubmit={handleSubmit}>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -38,6 +48,7 @@ const Home = () => {
           </button>
           <h1 className="block text-sm mb-2 text-red-500">{error ? "Something went wrong" : null}</h1>
         </form>
+        )}
       </div>
     </div>
   );
